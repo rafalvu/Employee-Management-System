@@ -234,7 +234,7 @@ app.delete(
     if (!req.params.id) {
       return res.status(400).json({ error: "User ID is required" });
     }
-    
+
     const userId = parseInt(req.params.id!, 10);
 
     try {
@@ -254,6 +254,11 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Only start server if not in test environment
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+export { app };
